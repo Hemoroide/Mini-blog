@@ -24,7 +24,6 @@ catch(Exception $e)
 
         <form action="commentaires_post.php" method="post">
 
-    Veuillez saisir votre pseudo : <input type ="text" name="auteur"><br><br>
     Veuillez saisir votre commentaire : <input type ="text" name="commentaire"><br><br><br>
 
             <input type="hidden" name="id_billet" value="<?php echo $_GET['id']?>">

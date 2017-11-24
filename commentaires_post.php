@@ -22,5 +22,5 @@ try {
     die('Erreur : ' . $e->getMessage());
 }
 
-header('Location: index.php');
+header('Location: blog.php');
 

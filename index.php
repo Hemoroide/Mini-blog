@@ -1,69 +1,41 @@
 <?php
-    $erreur=false;
-try
-{
-    $bddblog = new PDO('mysql:host=localhost;dbname=bddblog;charset=utf8', 'root', '');
+
+if (isset($_GET['motdepasse'])) {
+    $erreur = 'Les deux mot de passe ne sont pas identiques';
 }
-catch (Exception $e)
-{
-     $erreur=true;
+else {
+    $erreur='';
 }
+
 ?>
+
 
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>MINI-BLOG</title>
-        <link rel="stylesheet" href="index.css"/>
+        <title>INSCRIPTION</title>
+        <link rel="stylesheet" href="index.css">
     </head>
 
-    <body>
+<body>
 
-    <div><h1>BIENVENUE SUR LE MINI-BLOG</h1></div>
+    <div><h1>INSCRIPTION ESPACE MEMBRE</h1></div>
 
-<?php
-    if ($erreur) {
-?>
-        Erreur connexion base de données
-<?php
-    }
-    else {
-?>
+    <div class="questionnaire">
 
-        <form action="index_post.php" method="post">
-
-            Veuillez saisir le titre du billet : <input type ="text" name="titre_billet"><br><br>
-            Veuillez saisir le texte de votre billet : <textarea cols="40" rows="10" name="texte_billet"></textarea><br><br>
-            <INPUT TYPE="submit" NAME="validation" VALUE="VALIDER">
-
+        <form method="post" action="nouvel_utilisateur.php">
+            Selectionnez un pseudo : <input type = "text" name="pseudo"><br>
+            Selectionnez un mot de passe : <input type = "password" name="pass"> <?php echo $erreur?><br>
+            Confirmation du mot de passe : <input type = "password" name="pass2"><br>
+            Veuillez saisir votre adresse mail : <input type = "text" name="mail"><br>
+            <input type="submit" value="VALIDER">
         </form>
 
-<?php
-    }
+    </div>
 
-$billets = $bddblog-> query('SELECT id, titre, contenu, DATE_FORMAT(date_creation, "%d/%m/%Y %H:%m:%s") AS date_creation FROM billets ORDER BY ID DESC ');
+    <div><a href="connexion.php">Déjà inscrit? Cliquez ici pour vous connecter</a> </div>
 
-     while ($billet=$billets->fetch())
-    {
-       echo '<div class="titre">'.htmlspecialchars($billet['titre']). '</div>';
-       echo '<div class="contenu">'.htmlspecialchars($billet['contenu']).'</div>';
-       echo '<div class="timestamp">'.'Billet écrit le '.htmlspecialchars($billet['date_creation']).'</div><br>';
-       echo '<div class="commentaire" >'.'<a href="commentaires.php?id='.$billet['id'].'">Commentaires<a>'.'</div><br>';
+<body>
 
-        $commentaires = $bddblog-> prepare('SELECT id, id_billet, auteur, commentaire, DATE_FORMAT(date_commentaire, "%d/%m/%Y %H:%m:%s") AS date_creation FROM commentaires WHERE id_billet=:billet  ORDER BY ID DESC ');
-        $commentaires -> bindParam('billet', $billet['id'], PDO::PARAM_STR );
-        $commentaires -> execute();
-
-        while ($commentaire = $commentaires->fetch()) {
-
-            echo '<div class="affichagecommentaire">'.htmlspecialchars($commentaire['auteur']).' a dit : '.htmlspecialchars($commentaire['commentaire']).'</div><br><br>';
-        }
-    }
-
-$billets->closeCursor();
-
-?>
-
-    </body>
 </html>
