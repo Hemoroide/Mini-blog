@@ -1,0 +1,26 @@
+h1 {
+    text-align: center;
+}
+
+.titre {
+    text-align: center;
+    font-weight: bold;
+}
+
+.contenu {
+    text-align: center;
+}
+
+.timestamp {
+    text-align: center;
+    font-style: italic;
+}
+
+.commentaire {
+    text-align: center;
+    font-style: italic;
+}
+
+.affichagecommentaire {
+    text-align: center;
+}
