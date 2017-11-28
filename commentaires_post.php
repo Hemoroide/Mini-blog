@@ -1,5 +1,7 @@
 <?php
-$auteur = $_POST['auteur'];
+session_start();
+
+$auteur = $_SESSION['pseudo'];
 $commentaire = $_POST['commentaire'];
 $id_billet = $_POST['id_billet'];
 

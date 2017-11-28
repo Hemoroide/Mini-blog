@@ -36,7 +36,7 @@ catch (Exception $e)
         <form action="blog_post.php" method="post">
 
             Veuillez saisir le titre du billet : <input type ="text" name="titre_billet"><br><br>
-            Veuillez saisir le texte de votre billet : <textarea cols="40" rows="10" name="texte_billet"></textarea><br><br>
+            Veuillez saisir le texte de votre billet : <textarea cols="30" rows="8" name="texte_billet"></textarea><br><br>
             <INPUT TYPE="submit" NAME="validation" VALUE="VALIDER">
 
         </form>
@@ -46,8 +46,9 @@ catch (Exception $e)
 
 $billets = $bddblog-> query('SELECT id, titre, contenu, DATE_FORMAT(date_creation, "%d/%m/%Y %H:%m:%s") AS date_creation FROM billets ORDER BY ID DESC ');
 
-     while ($billet=$billets->fetch())
+     while ($billet=$billets->fetch())                                                              //affichage des billets
     {
+       echo '' . '<br>';
        echo '<div class="titre">'.htmlspecialchars($billet['titre']). '</div>';
        echo '<div class="contenu">'.htmlspecialchars($billet['contenu']).'</div>';
        echo '<div class="timestamp">'.'Billet écrit le '.htmlspecialchars($billet['date_creation']).'</div><br>';
@@ -57,11 +58,16 @@ $billets = $bddblog-> query('SELECT id, titre, contenu, DATE_FORMAT(date_creatio
         $commentaires -> bindParam('billet', $billet['id'], PDO::PARAM_STR );
         $commentaires -> execute();
 
-        while ($commentaire = $commentaires->fetch()) {
+        while ($commentaire = $commentaires->fetch()) {                             //Affiche les commentaires
 
-            echo '<div class="affichagecommentaire">'.htmlspecialchars($commentaire['auteur']).' a dit : '.htmlspecialchars($commentaire['commentaire']).'</div><br><br>';
+            echo '<div class="affichagecommentaire">'.htmlspecialchars($commentaire['auteur']).' a dit : '.htmlspecialchars($commentaire['commentaire']).'</div>';
+            if ($commentaire['auteur'] == $_SESSION['pseudo']) {
+                echo '<div class ="edit_commentaire">' . '<a href = "edit_commentaire.php?id='.$commentaire['id'].'&type=validation">edit </a>' . '</div>';
+                echo '<div class ="supprimer">' . '<a href = "suppression_commentaire?id='.$commentaire['id'].'&type=suppression">supprimer</a>' . '</div><br>';
+            }
         }
     }
+
 
 $billets->closeCursor();
 

@@ -27,27 +27,25 @@ $bdd = new PDO('mysql:host=localhost;dbname=espace_membre;charset=utf8' ,'root',
 
     <?php
 
-    $pass_hash = hash('sha1',$_POST['pass']);
-    $pseudo = $_POST['pseudo'];
+    if (isset($_POST['pass']) && isset($_POST['pseudo'])) {
+        $pass_hash = hash('sha1', $_POST['pass']);
+        $pseudo = $_POST['pseudo'];
 
-    $req = $bdd -> prepare('SELECT id FROM membre WHERE pseudo = :pseudo AND pass = :pass');
-    $req->execute(array(
-            'pseudo' => $pseudo,
-            'pass'=> $pass_hash
-    ));
+        $req = $bdd -> prepare('SELECT id FROM membre WHERE pseudo = :pseudo AND pass = :pass');
+        $req->execute(array(
+             'pseudo' => $pseudo,
+             'pass'=> $pass_hash
+        ));
 
-    $resultat = $req->fetch();
+        $resultat = $req->fetch();
 
-    if (!$resultat)
-    {
-        echo 'Mauvais identifiant ou mot de passe !';
+        if (!$resultat || empty($pseudo)) {
+                echo 'Mauvais identifiant ou mot de passe !';
+            } else {
+                $_SESSION['pseudo'] = $pseudo;
+                header("Location: blog.php");
+            }
     }
-    else
-    {
-        $_SESSION['pseudo'] = $pseudo;
-        header("Location: blog.php");
-    }
-
     ?>
 
 </body>

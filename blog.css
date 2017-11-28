@@ -25,3 +25,11 @@ h1 {
 .affichagecommentaire {
     text-align: center;
 }
+
+.edit_commentaire {
+    text-align: center;
+}
+
+.supprimer {
+    text-align: center;
+}
