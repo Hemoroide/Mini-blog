@@ -19,13 +19,12 @@ catch (Exception $e) {
 
                 $stmt = $dbh->prepare('UPDATE commentaires SET commentaire=:commentaire WHERE id=:id');
 
-                $stmt->bindParam('commentaire', $newCommentaire, PDO::PARAM_STR);
-                $stmt->bindParam('id', $id_commentaire, PDO::PARAM_INT);
+                $stmt->bindParam(':commentaire', $newCommentaire, PDO::PARAM_STR);
+                $stmt->bindParam(':id', $id_commentaire, PDO::PARAM_INT);
 
                 $stmt->execute();
 
-                var_dump($newCommentaire);
-        }
+    }
 
    header('Location: blog.php');
 

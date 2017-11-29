@@ -14,18 +14,17 @@ catch (Exception $e) {
 
 ?>
 
-    <input type="hidden" name="id_billet" value="<?php echo $_GET['id']?>">
+    <h1><center>SUPPRESSION DU COMMENTAIRE</center></h1>
 
-<?php
+    Voulez-vous vraiment supprimer ce commentaire ?<br><br>
+    <form action="suppression_commentaire_post.php" method="get">
+        <input type="submit" value="SUPPRIMER LE COMMENTAIRE">
+        <input type="hidden" name="id" value="<?php echo $_GET['id']?>">
+    </form>
 
-    $id_commentaire = $_GET['id'];
+    <form action="blog.php">
+        <input type="submit" value="RETOUR A LA PAGE PRECEDENTE">
+    </form>
 
-    $stmt = $dbh->prepare('DELETE FROM commentaires WHERE id=:id');
 
-                $stmt->bindParam('id', $id_commentaire, PDO::PARAM_INT);
 
-                $stmt->execute();
-
-header('Location: blog.php');
-
-?>

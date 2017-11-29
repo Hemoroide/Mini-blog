@@ -8,7 +8,7 @@ catch(Exception $e)
 {
     die('Erreur : '.$e->getMessage());
 }
-
+    $idCommentaire = $_GET['id'];
 ?>
 
 <!DOCTYPE html>
@@ -24,9 +24,23 @@ catch(Exception $e)
     <h1>MODIFICATION DU COMMENTAIRE</h1>
 
         <form method="post" action="edit_commentaire_post.php">
-            Veuillez saisir votre nouveau commentaire : <input type ="text" name="new_commentaire"><br><br><br>
+
+<?php
+
+        $stmt = $bddblog->prepare("SELECT commentaire FROM commentaires WHERE id=:idCommentaire");
+
+        $stmt->bindParam(':idCommentaire', $idCommentaire, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        $result = $stmt->fetch();
+
+?>
+
+            Veuillez saisir votre nouveau commentaire : <input autofocus type ="text" name="new_commentaire" value="<?php echo $result['commentaire']?>" ><br><br><br>
             <INPUT TYPE="submit" id="validation" VALUE="VALIDER LA MODIFICATION">
-            <input type="hidden" name="id_billet" value="<?php echo $_GET['id']?>">
+            <input type="hidden" name="id_billet" value="<?php echo $idCommentaire?>">
+
         </form>
 
 </body>

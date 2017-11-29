@@ -22,7 +22,9 @@ catch (Exception $e)
 
 <body>
 
-    <div><h1>BIENVENUE SUR LE MINI-BLOG, <?php echo $_SESSION['pseudo']; ?></h1></div>
+    <div><h1>BIENVENUE SUR LE MINI-BLOG, <?php echo $_SESSION['pseudo']; ?></h1>
+    <div class="deconnexion"><a href="deconnexion.php">déconnexion</a></div></div>
+
 
 <?php
     if ($erreur) {
@@ -67,7 +69,6 @@ $billets = $bddblog-> query('SELECT id, titre, contenu, DATE_FORMAT(date_creatio
             }
         }
     }
-
 
 $billets->closeCursor();
 
